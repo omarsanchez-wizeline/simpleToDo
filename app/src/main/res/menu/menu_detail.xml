@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:apps="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <item android:title="@string/delete"
+        apps:showAsAction = "always"
+        android:id="@+id/delete"
+        android:icon="@android:drawable/ic_menu_delete"/>
+    <item android:title="@string/cancel"
+        apps:showAsAction = "always"
+        android:id="@+id/cancel"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"/>
+</menu>
