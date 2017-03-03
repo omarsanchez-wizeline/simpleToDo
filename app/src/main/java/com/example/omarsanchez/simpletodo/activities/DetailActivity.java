@@ -1,18 +1,33 @@
 package com.example.omarsanchez.simpletodo.activities;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.omarsanchez.simpletodo.R;
+import com.example.omarsanchez.simpletodo.adapter.ToDoAdapter;
+import com.example.omarsanchez.simpletodo.fragment.UpdateTask;
+import com.example.omarsanchez.simpletodo.interfaces.Updated;
 import com.example.omarsanchez.simpletodo.model.Task;
+import com.example.omarsanchez.simpletodo.util.Priority;
 
-public class DetailActivity extends AppCompatActivity {
+import java.util.Calendar;
+
+public class DetailActivity extends AppCompatActivity implements Updated {
     TextView name, date, note, priority, status;
     Task task;
     int position;
@@ -21,26 +36,25 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (savedInstanceState != null) {
-            task = (Task) savedInstanceState.getSerializable(getString(R.string.detail));
-            position = savedInstanceState.getInt(getString(R.string.position));
-        } else {
-            Bundle bundle = getIntent().getExtras();
-            task = (Task) bundle.getSerializable(getString(R.string.detail));
-            position = bundle.getInt(getString(R.string.position));
-        }
+
         name = (TextView) findViewById(R.id.name);
         date = (TextView) findViewById(R.id.date);
         note = (TextView) findViewById(R.id.note);
         priority = (TextView) findViewById(R.id.priority);
         status = (TextView) findViewById(R.id.status);
 
-        name.setText(task.getTaskName());
-        date.setText(task.getDate());
-        note.setText(task.getNote());
-        priority.setText(task.getPriority().name());
-        status.setText(task.getStatus());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (savedInstanceState != null) {
+            task = (Task) savedInstanceState.getSerializable(getString(R.string.detail));
+            update(task);
+            position = savedInstanceState.getInt(getString(R.string.position));
+        } else {
+            Bundle bundle = getIntent().getExtras();
+            task = (Task) bundle.getSerializable(getString(R.string.detail));
+            update(task);
+            position = bundle.getInt(getString(R.string.position));
+        }
+
     }
 
     @Override
@@ -55,9 +69,8 @@ public class DetailActivity extends AppCompatActivity {
             case R.id.delete:
                 confirmDelete();
                 break;
-            case R.id.cancel:
-                setResult(RESULT_CANCELED);
-                finish();
+            case R.id.edit:
+                createDialog().show();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -91,5 +104,24 @@ public class DetailActivity extends AppCompatActivity {
                 })
                 .create()
                 .show();
+    }
+
+    private AlertDialog createDialog() {
+        return UpdateTask.newInstance(this).createDialog(this, task);
+    }
+
+    @Override
+    public void onUpdated(Task task) {
+        this.task = task;
+        update(task);
+        ToDoAdapter.getInstance().updateTask(task,position);
+    }
+
+    private void update(Task task){
+        name.setText(task.getTaskName());
+        date.setText(task.getDate());
+        note.setText(task.getNote());
+        priority.setText(task.getPriority().name());
+        status.setText(task.getStatus());
     }
 }

@@ -21,33 +21,18 @@ public class MainActivity extends AppCompatActivity {
     private static final int ADD_REQUEST = 1;
     public static final int DETAIL_REQUEST = 2;
     private RecyclerView recyclerView;
-    private EditText inputText;
-    private Button addButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        inputText = (EditText) findViewById(R.id.inputText);
-        addButton = (Button) findViewById(R.id.addButton);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(ToDoAdapter.getInstance());
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!inputText.getText().toString().isEmpty()) {
-                    Task task = new Task();
-                    task.setTaskName(inputText.getText().toString());
-                    task.setPriority(Priority.High);
-                    ToDoAdapter.getInstance().addTask(task);
-                    inputText.setText("");
-                }
-            }
-        });
     }
 
     @Override
@@ -84,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 break;
+
         }
     }
 }

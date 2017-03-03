@@ -8,13 +8,20 @@ import java.io.Serializable;
  * Created by omarsanchez on 2/19/17.
  */
 
-public class Task implements Serializable{
+public class Task implements Serializable {
     private String taskName;
     private Priority priority;
     private String date;
     private boolean status;
     private String note;
 
+    public Task(String taskName, String date, String note, Priority priority, boolean status) {
+        this.taskName = taskName;
+        this.priority = priority;
+        this.date = date;
+        this.status = status;
+        this.note = note;
+    }
 
     public String getTaskName() {
         return taskName;
@@ -40,7 +47,7 @@ public class Task implements Serializable{
         this.date = date;
     }
 
-    public boolean isStatus() {
+    public boolean isDone() {
         return status;
     }
 
@@ -56,10 +63,10 @@ public class Task implements Serializable{
         this.note = note;
     }
 
-    public String getStatus(){
-        if(isStatus()){
+    public String getStatus() {
+        if (isDone()) {
             return "Done";
-        }else {
+        } else {
             return "To do";
         }
     }

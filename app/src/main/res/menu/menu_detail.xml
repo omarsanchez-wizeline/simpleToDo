@@ -7,8 +7,8 @@
         apps:showAsAction = "always"
         android:id="@+id/delete"
         android:icon="@android:drawable/ic_menu_delete"/>
-    <item android:title="@string/cancel"
+    <item android:title="@string/edit"
         apps:showAsAction = "always"
-        android:id="@+id/cancel"
-        android:icon="@android:drawable/ic_menu_close_clear_cancel"/>
+        android:id="@+id/edit"
+        android:icon="@android:drawable/ic_menu_edit"/>
 </menu>
