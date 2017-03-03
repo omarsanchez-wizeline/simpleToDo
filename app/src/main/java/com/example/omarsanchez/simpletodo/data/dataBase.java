@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DataBase extends SQLiteOpenHelper {
 
     final static String name = "ToDoDataBase.sqlite";
-    final static int version = 3;
+    final static int version = 1;
     String table = "CREATE TABLE Task (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, date TEXT, note TEXT, priority TEXT, status INTEGER)";
 
     public DataBase(Context context) {
