@@ -4,7 +4,7 @@
 
 Submitted by: **Omar Sanchez**
 
-Time spent: **6** hours spent in total
+Time spent: **12** hours spent in total
 
 ## User Stories
 
@@ -37,7 +37,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+it was very awsome to do this.
 
 ## License
 
