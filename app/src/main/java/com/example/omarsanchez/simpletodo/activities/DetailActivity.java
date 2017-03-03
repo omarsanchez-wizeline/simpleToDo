@@ -1,21 +1,12 @@
 package com.example.omarsanchez.simpletodo.activities;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.omarsanchez.simpletodo.R;
@@ -23,9 +14,6 @@ import com.example.omarsanchez.simpletodo.adapter.ToDoAdapter;
 import com.example.omarsanchez.simpletodo.fragment.UpdateTask;
 import com.example.omarsanchez.simpletodo.interfaces.Updated;
 import com.example.omarsanchez.simpletodo.model.Task;
-import com.example.omarsanchez.simpletodo.util.Priority;
-
-import java.util.Calendar;
 
 public class DetailActivity extends AppCompatActivity implements Updated {
     TextView name, date, note, priority, status;
@@ -114,7 +102,7 @@ public class DetailActivity extends AppCompatActivity implements Updated {
     public void onUpdated(Task task) {
         this.task = task;
         update(task);
-        ToDoAdapter.getInstance().updateTask(task,position);
+        ToDoAdapter.getInstance(this).updateTask(task, position);
     }
 
     private void update(Task task){

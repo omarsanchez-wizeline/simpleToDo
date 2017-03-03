@@ -9,6 +9,7 @@ import java.io.Serializable;
  */
 
 public class Task implements Serializable {
+    private int id;
     private String taskName;
     private Priority priority;
     private String date;
@@ -21,6 +22,19 @@ public class Task implements Serializable {
         this.date = date;
         this.status = status;
         this.note = note;
+    }
+
+    public Task(int id, String taskName, String date, String note, Priority priority, boolean status) {
+        this.id = id;
+        this.taskName = taskName;
+        this.priority = priority;
+        this.date = date;
+        this.status = status;
+        this.note = note;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTaskName() {
@@ -69,5 +83,9 @@ public class Task implements Serializable {
         } else {
             return "To do";
         }
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

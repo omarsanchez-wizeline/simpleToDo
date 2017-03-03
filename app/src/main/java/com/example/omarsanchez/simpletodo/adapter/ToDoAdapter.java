@@ -5,15 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.omarsanchez.simpletodo.R;
 import com.example.omarsanchez.simpletodo.activities.DetailActivity;
 import com.example.omarsanchez.simpletodo.activities.MainActivity;
-import com.example.omarsanchez.simpletodo.R;
+import com.example.omarsanchez.simpletodo.data.DataBaseController;
 import com.example.omarsanchez.simpletodo.model.Task;
 import com.example.omarsanchez.simpletodo.util.Priority;
 
@@ -26,32 +26,37 @@ import java.util.ArrayList;
 public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoHolder> {
     private ArrayList<Task> tasks;
     private static ToDoAdapter adapter;
+    private Context context;
 
 
-    private ToDoAdapter() {
-        tasks = new ArrayList<>();
+    private ToDoAdapter(Context context) {
+        tasks = DataBaseController.getInstance(context).getTasks();
+        this.context = context;
     }
 
-    public static ToDoAdapter getInstance() {
+    public static ToDoAdapter getInstance(Context context) {
         if (ToDoAdapter.adapter == null) {
-            ToDoAdapter.adapter = new ToDoAdapter();
+            ToDoAdapter.adapter = new ToDoAdapter(context);
         }
         return ToDoAdapter.adapter;
 
     }
 
     public void addTask(Task task) {
+        task.setId((int) DataBaseController.getInstance(context).insertTask(task));
         tasks.add(task);
         notifyDataSetChanged();
     }
 
     public void removeTask(int position) {
+        DataBaseController.getInstance(context).deleteTask(tasks.get(position));
         tasks.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, tasks.size());
     }
 
-    public void updateTask(Task task,int position){
+    public void updateTask(Task task, int position) {
+        DataBaseController.getInstance(context).updateTask(task);
         tasks.set(position, task);
         notifyItemChanged(position);
     }
@@ -93,9 +98,9 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoHolder> {
                     Intent intent = new Intent(context, DetailActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(context.getString(R.string.detail), tasks.get(getAdapterPosition()));
-                    bundle.putInt(context.getString(R.string.position),getAdapterPosition());
+                    bundle.putInt(context.getString(R.string.position), getAdapterPosition());
                     intent.putExtras(bundle);
-                    ((MainActivity)context).startActivityForResult(intent, MainActivity.DETAIL_REQUEST);
+                    ((MainActivity) context).startActivityForResult(intent, MainActivity.DETAIL_REQUEST);
                 }
             });
             taskName = (TextView) itemView.findViewById(R.id.task_list_name);

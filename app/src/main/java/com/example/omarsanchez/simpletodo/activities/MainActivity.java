@@ -1,21 +1,17 @@
 package com.example.omarsanchez.simpletodo.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.example.omarsanchez.simpletodo.R;
 import com.example.omarsanchez.simpletodo.adapter.ToDoAdapter;
 import com.example.omarsanchez.simpletodo.model.Task;
-import com.example.omarsanchez.simpletodo.util.Priority;
 
 public class MainActivity extends AppCompatActivity {
     private static final int ADD_REQUEST = 1;
@@ -31,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(ToDoAdapter.getInstance());
+        recyclerView.setAdapter(ToDoAdapter.getInstance(this));
 
     }
 
@@ -58,14 +54,14 @@ public class MainActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK && data != null) {
                     Log.d("request", "success");
                     Task task = (Task) data.getSerializableExtra(getString(R.string.add_task));
-                    ToDoAdapter.getInstance().addTask(task);
+                    ToDoAdapter.getInstance(this).addTask(task);
                 }
                 break;
             case DETAIL_REQUEST:
                 if (resultCode == RESULT_OK) {
                     Log.d("detail", "success");
                     if (data != null) {
-                        ToDoAdapter.getInstance().removeTask(data.getIntExtra(getString(R.string.position), -1));
+                        ToDoAdapter.getInstance(this).removeTask(data.getIntExtra(getString(R.string.position), -1));
                     }
                 }
                 break;
